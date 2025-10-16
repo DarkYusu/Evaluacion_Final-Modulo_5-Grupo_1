@@ -22,10 +22,10 @@ class ActividadAdapter : ListAdapter<Actividad, ActividadAdapter.ActividadViewHo
 
     class ActividadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(actividad: Actividad) {
-            itemView.findViewById<TextView>(R.id.tvNombre).text = actividad.nombre
-            itemView.findViewById<TextView>(R.id.tvFecha).text = actividad.fecha
-            itemView.findViewById<TextView>(R.id.tvHora).text = actividad.hora
-            itemView.findViewById<TextView>(R.id.tvDescripcion).text = actividad.descripcion
+            itemView.findViewById<TextView>(R.id.textViewTitulo).text = actividad.nombre
+            itemView.findViewById<TextView>(R.id.textViewFecha).text = actividad.fecha
+            itemView.findViewById<TextView>(R.id.textViewHora).text = actividad.hora
+            itemView.findViewById<TextView>(R.id.textViewDescripcion).text = actividad.descripcion
         }
     }
 
@@ -36,4 +36,3 @@ class ActividadAdapter : ListAdapter<Actividad, ActividadAdapter.ActividadViewHo
             oldItem == newItem
     }
 }
-

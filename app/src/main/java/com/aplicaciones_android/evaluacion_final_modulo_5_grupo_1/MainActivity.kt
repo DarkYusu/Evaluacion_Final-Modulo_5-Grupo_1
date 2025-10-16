@@ -10,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.FragmentRegistroActividad
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.NuevaActividadFragment
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.FragmentListadoActividades
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.AboutActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, FragmentRegistroActividad.newInstance())
+                .replace(R.id.fragmentContainer, NuevaActividadFragment.newInstance())
                 .commit()
         }
         solicitarPermisoAlmacenamiento()
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun mostrarRegistro() {
-        mostrarFragmento(FragmentRegistroActividad.newInstance())
+        mostrarFragmento(NuevaActividadFragment.newInstance())
     }
 
     fun mostrarAbout() {
