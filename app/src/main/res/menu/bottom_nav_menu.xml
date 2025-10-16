@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_registro"
+        android:title="Registrar"
+        android:icon="@android:drawable/ic_input_add" />
+    <item
+        android:id="@+id/nav_listado"
+        android:title="Historial"
+        android:icon="@android:drawable/ic_menu_agenda" />
+    <item
+        android:id="@+id/nav_about"
+        android:title="Acerca de"
+        android:icon="@android:drawable/ic_menu_info_details" />
+</menu>
+

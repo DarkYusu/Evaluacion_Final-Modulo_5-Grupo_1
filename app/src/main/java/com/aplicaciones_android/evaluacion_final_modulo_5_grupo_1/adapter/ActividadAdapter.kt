@@ -1,0 +1,39 @@
+package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.model.Actividad
+
+class ActividadAdapter : ListAdapter<Actividad, ActividadAdapter.ActividadViewHolder>(DiffCallback()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActividadViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_actividad, parent, false)
+        return ActividadViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ActividadViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class ActividadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(actividad: Actividad) {
+            itemView.findViewById<TextView>(R.id.tvNombre).text = actividad.nombre
+            itemView.findViewById<TextView>(R.id.tvFecha).text = actividad.fecha
+            itemView.findViewById<TextView>(R.id.tvHora).text = actividad.hora
+            itemView.findViewById<TextView>(R.id.tvDescripcion).text = actividad.descripcion
+        }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<Actividad>() {
+        override fun areItemsTheSame(oldItem: Actividad, newItem: Actividad): Boolean =
+            oldItem === newItem
+        override fun areContentsTheSame(oldItem: Actividad, newItem: Actividad): Boolean =
+            oldItem == newItem
+    }
+}
+
