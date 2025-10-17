@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".NuevaActividadFragment">
+    tools:context=".view.NuevaActividadFragment">
 
     <TextView
         android:layout_width="wrap_content"

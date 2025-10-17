@@ -1,26 +1,35 @@
-package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1
+package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view
 
+//region Imports
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
+//endregion
 
+//region Fragment argument keys
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+//endregion
 
 /**
  * A simple [Fragment] subclass.
  * Use the [ActividadesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+//region ActividadesFragment
 class ActividadesFragment : Fragment() {
+    //region Properties
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    //endregion
 
+    //region Lifecycle methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,7 +45,9 @@ class ActividadesFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_actividades, container, false)
     }
+    //endregion
 
+    //region Companion object (factory)
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -56,4 +67,6 @@ class ActividadesFragment : Fragment() {
                 }
             }
     }
+    //endregion
 }
+//endregion

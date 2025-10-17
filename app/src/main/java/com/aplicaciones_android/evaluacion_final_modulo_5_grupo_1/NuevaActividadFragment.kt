@@ -1,4 +1,4 @@
-package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1
+package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -15,18 +15,29 @@ import androidx.fragment.app.activityViewModels
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.databinding.FragmentNuevaActividadBinding
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.model.Actividad
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.viewmodel.ActividadViewModel
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.FragmentListadoActividades
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+//region Constantes y variables globales
 // TODO: Renombrar los argumentos para usar nombres más descriptivos
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private val calendario = Calendar.getInstance()
+//endregion
+
+/**
+ * Fragmento para registrar una nueva actividad.
+ * Permite ingresar título, descripción, fecha y hora.
+ * Valida los datos y guarda la actividad usando ActividadViewModel.
+ * También permite navegar al listado de actividades.
+ */
+
 class NuevaActividadFragment : Fragment() {
 
+    //region Propiedades de instancia
     private var _binding: FragmentNuevaActividadBinding? = null
     private val binding get() = _binding!!
 
@@ -35,7 +46,9 @@ class NuevaActividadFragment : Fragment() {
     private var param2: String? = null
 
     private val actividadViewModel: ActividadViewModel by activityViewModels()
+    //endregion
 
+    //region Ciclo de vida
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -56,7 +69,8 @@ class NuevaActividadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        // Configurar vistas y listeners
+        //region Vistas y listeners
         val titulo = view.findViewById<EditText>(R.id.editTextTitulo)
         val descripcion = view.findViewById<EditText>(R.id.editTextDescripcion)
         val textFecha = view.findViewById<TextView>(R.id.textViewFecha)
@@ -116,30 +130,17 @@ class NuevaActividadFragment : Fragment() {
         binding.textViewHora.setOnClickListener {
             mostrarTimePickerDialog()
         }
-
+        //endregion
     }
 
-    companion object {
-        /**
-         * Método de fábrica para crear una instancia del fragment con parámetros.
-         * @param param1 Parámetro 1 (opcional)
-         * @param param2 Parámetro 2 (opcional)
-         * @return Nueva instancia de NuevaActividadFragment
-         */
-        @Suppress("unused")
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NuevaActividadFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
-        // Constructor de conveniencia sin parámetros
-        fun newInstance(): NuevaActividadFragment = NuevaActividadFragment()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Limpiar el binding para evitar fugas de memoria
+        _binding = null
     }
+    //endregion
 
+    //region Helpers de fecha y hora
     private fun mostrarDatePickerDialog() {
         // Listener que recibe la fecha seleccionada
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
@@ -196,5 +197,29 @@ class NuevaActividadFragment : Fragment() {
         val sdf = SimpleDateFormat(formato, Locale.getDefault())
         binding.textViewHora.text = sdf.format(calendario.time)
     }
+    //endregion
+
+    //region Companion y fábrica
+    companion object {
+        /**
+         * Método de fábrica para crear una instancia del fragment con parámetros.
+         * @param param1 Parámetro 1 (opcional)
+         * @param param2 Parámetro 2 (opcional)
+         * @return Nueva instancia de NuevaActividadFragment
+         */
+        @Suppress("unused")
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            NuevaActividadFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+
+        // Constructor de conveniencia sin parámetros
+        fun newInstance(): NuevaActividadFragment = NuevaActividadFragment()
+    }
+    //endregion
 
 }
