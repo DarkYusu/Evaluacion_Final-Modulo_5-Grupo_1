@@ -9,10 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.FragmentListadoActividades
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.AboutActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
 
 //region Constantes y configuración
 private const val REQUEST_WRITE_STORAGE = 100
