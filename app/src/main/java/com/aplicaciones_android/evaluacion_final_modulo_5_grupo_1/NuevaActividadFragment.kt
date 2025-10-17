@@ -25,6 +25,7 @@ import java.util.Locale
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+private val calendario = Calendar.getInstance()
 class NuevaActividadFragment : Fragment() {
 
     private var _binding: FragmentNuevaActividadBinding? = null
@@ -56,6 +57,7 @@ class NuevaActividadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val titulo = view.findViewById<EditText>(R.id.editTextTitulo)
         val descripcion = view.findViewById<EditText>(R.id.editTextDescripcion)
