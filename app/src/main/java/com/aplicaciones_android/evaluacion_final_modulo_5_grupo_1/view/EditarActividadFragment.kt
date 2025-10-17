@@ -54,7 +54,11 @@ class EditarActividadFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_editar_actividad, container, false)
     }
 
@@ -76,13 +80,6 @@ class EditarActividadFragment : Fragment() {
             editDescripcion.setText(act.descripcion)
         }
 
-        // Eliminar comportamiento de foco para evitar doble toque
-        // textFecha.isFocusable = true
-        // textFecha.isFocusableInTouchMode = true
-        // textFecha.setOnFocusChangeListener { v, hasFocus ->
-        //     if (hasFocus) ocultarTeclado(v)
-        // }
-
         // Fecha y hora: abrir pickers (ocultando teclado antes)
         textFecha.setOnClickListener {
             ocultarTeclado(it)
@@ -100,7 +97,11 @@ class EditarActividadFragment : Fragment() {
             val nuevaDescripcion = editDescripcion.text.toString().trim()
 
             if (nuevoTitulo.isEmpty() || nuevaFecha.isEmpty() || nuevaHora.isEmpty() || nuevaDescripcion.isEmpty()) {
-                Toast.makeText(requireContext(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Todos los campos son obligatorios",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -163,7 +164,8 @@ class EditarActividadFragment : Fragment() {
     // Oculta el teclado suave asociado a la ventana del view indicado
     private fun ocultarTeclado(view: View) {
         try {
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             val token = requireActivity().currentFocus?.windowToken ?: view.windowToken
             imm.hideSoftInputFromWindow(token, 0)
         } catch (_: Exception) {
