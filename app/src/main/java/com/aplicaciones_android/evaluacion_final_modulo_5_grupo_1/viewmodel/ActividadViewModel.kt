@@ -58,4 +58,25 @@ class ActividadViewModel : ViewModel() {
             _actividades.postValue(lista)
         }
     }
+
+    fun eliminarActividad(context: Context, actividad: Actividad) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // Eliminar de la memoria
+            val listaActual = _actividades.value?.toMutableList() ?: mutableListOf()
+            if (listaActual.remove(actividad)) {
+                _actividades.postValue(listaActual)
+                // Reescribir el archivo CSV
+                val csvFile = File(context.filesDir, "actividades.csv")
+                try {
+                    val writer = BufferedWriter(FileWriter(csvFile, false)) // false para sobrescribir
+                    listaActual.forEach {
+                        writer.write("${it.nombre},${it.fecha},${it.hora},${it.descripcion}\n")
+                    }
+                    writer.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
 }

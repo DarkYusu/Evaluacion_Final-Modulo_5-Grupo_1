@@ -48,7 +48,9 @@ class FragmentListadoActividades : Fragment() {
 
         // Referencias a vistas
         recyclerView = view.findViewById(R.id.recyclerActividades)
-        adapter = ActividadAdapter()
+        adapter = ActividadAdapter { actividad ->
+            actividadViewModel.eliminarActividad(requireContext(), actividad)
+        }
 
         // Configuración del RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
