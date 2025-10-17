@@ -1,5 +1,7 @@
 package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.databinding.FragmentNuevaActividadBinding
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.model.Actividad
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.viewmodel.ActividadViewModel
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view.FragmentListadoActividades
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,6 +26,10 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class NuevaActividadFragment : Fragment() {
+
+    private var _binding: FragmentNuevaActividadBinding? = null
+    private val binding get() = _binding!!
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,6 +48,8 @@ class NuevaActividadFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentNuevaActividadBinding.inflate(inflater, container, false)
+        return binding.root
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_nueva_actividad, container, false)
     }
@@ -95,6 +105,15 @@ class NuevaActividadFragment : Fragment() {
                 .replace(R.id.fragmentContainer, FragmentListadoActividades.newInstance())
                 .commit()
         }
+
+        binding.textViewFecha.setOnClickListener {
+            mostrarDatePickerDialog()
+        }
+
+        binding.textViewHora.setOnClickListener {
+            mostrarTimePickerDialog()
+        }
+
     }
 
     companion object {
@@ -119,4 +138,51 @@ class NuevaActividadFragment : Fragment() {
         // Added: convenience no-arg constructor to match previous usage pattern
         fun newInstance(): NuevaActividadFragment = NuevaActividadFragment()
     }
+
+    private fun mostrarDatePickerDialog() {
+        // Crear un listener para cuando el usuario seleccione una fecha
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            // Actualizar la instancia del calendario con la fecha seleccionada
+            calendario.set(Calendar.YEAR, year)
+            calendario.set(Calendar.MONTH, month)
+            calendario.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            // Formatear y mostrar la fecha en el TextView
+            actualizarFechaEnTextView()
+        }
+
+        // Crear y mostrar el DatePickerDialog
+        DatePickerDialog(
+            requireContext(),
+            dateSetListener,
+            // Usar la fecha actual (o la ya seleccionada) como fecha inicial del diálogo
+            calendario.get(Calendar.YEAR),
+            calendario.get(Calendar.MONTH),
+            calendario.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun mostrarTimePickerDialog() {
+        // Crear un listener para cuando el usuario seleccione una hora
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+            // Actualizar la instancia del calendario con la hora seleccionada
+            calendario.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendario.set(Calendar.MINUTE, minute)
+
+            // Formatear y mostrar la hora en el TextView
+            actualizarHoraEnTextView()
+        }
+
+        // Crear y mostrar el TimePickerDialog
+        TimePickerDialog(
+            requireContext(),
+            timeSetListener,
+            // Usar la hora y minuto actuales como valores iniciales
+            calendario.get(Calendar.HOUR_OF_DAY),
+            calendario.get(Calendar.MINUTE),
+            // true para formato de 24 horas, false para formato AM/PM
+            true
+        ).show()
+    }
+
 }
