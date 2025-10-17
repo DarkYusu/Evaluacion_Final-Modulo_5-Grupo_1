@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.model.Actividad
-import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -32,6 +31,28 @@ class ActividadViewModel : ViewModel() {
                 writer.close()
             } catch (e: IOException) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun actualizarActividad(context: Context, original: Actividad, actualizado: Actividad) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val listaActual = _actividades.value?.toMutableList() ?: mutableListOf()
+            val index = listaActual.indexOf(original)
+            if (index >= 0) {
+                listaActual[index] = actualizado
+                _actividades.postValue(listaActual)
+                // Reescribir el archivo CSV con la lista actualizada
+                val csvFile = File(context.filesDir, "actividades.csv")
+                try {
+                    val writer = BufferedWriter(FileWriter(csvFile, false)) // sobrescribir
+                    listaActual.forEach {
+                        writer.write("${it.nombre},${it.fecha},${it.hora},${it.descripcion}\n")
+                    }
+                    writer.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
         }
     }

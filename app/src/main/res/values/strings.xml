@@ -11,6 +11,6 @@
     <string name="nueva_actividad">Nueva Actividad</string>
 
     <!-- Textos para la pantalla About -->
-    <string name="about_message">Aplicación desarrollada por el Grupo 1</string>
+    <string name="about_message">Aplicación desarrollada por el Grupo 1 /n prueba</string>
     <string name="volver">Volver</string>
 </resources>

@@ -1,10 +1,14 @@
 package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,9 +52,33 @@ class FragmentListadoActividades : Fragment() {
 
         // Referencias a vistas
         recyclerView = view.findViewById(R.id.recyclerActividades)
-        adapter = ActividadAdapter { actividad ->
-            actividadViewModel.eliminarActividad(requireContext(), actividad)
-        }
+        adapter = ActividadAdapter(
+            onEditClickListener = { actividad ->
+                // Abrir el fragmento de edición pasando la actividad
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, EditarActividadFragment.newInstance(actividad))
+                    .addToBackStack(null)
+                    .commit()
+
+                // Mostrar mensaje de confirmación
+                Toast.makeText(requireContext(), "Actividad en edición", Toast.LENGTH_SHORT).show()
+            },
+            onDateEditListener = { editText ->
+                // Configurar acción para ocultar el teclado al confirmar la edición de la fecha
+                editText.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(editText.windowToken, 0)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            },
+            onDeleteClickListener = { actividad ->
+                actividadViewModel.eliminarActividad(requireContext(), actividad)
+            }
+        )
 
         // Configuración del RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
