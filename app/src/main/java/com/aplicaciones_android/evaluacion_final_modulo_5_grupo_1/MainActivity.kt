@@ -112,7 +112,6 @@ class MainActivity : AppCompatActivity() {
      */
     fun mostrarAbout() {
         val intent = Intent(this, AboutActivity::class.java)
-        intent.putExtra("info", "App de registro de actividades. Grupo 1. 2025")
         startActivity(intent)
     }
     //endregion

@@ -12,7 +12,7 @@ class AboutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about)
         val info = intent.getStringExtra("info")
         // Mensaje por defecto del grupo si no se pasa info
-        findViewById<TextView>(R.id.tvAbout).text = info ?: "Aplicación desarrollada por el Grupo 1"
+        findViewById<TextView>(R.id.tvAbout).text = info ?: "gffghfg"
 
         // Botón para volver (cerrar la Activity)
         findViewById<Button>(R.id.btnVolver).setOnClickListener {
