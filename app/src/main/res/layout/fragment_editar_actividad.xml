@@ -58,20 +58,20 @@
                     android:textSize="14sp" />
 
                 <ImageButton
-                    android:id="@+id/botonEditar"
+                    android:id="@+id/botonConfirmar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_24px"
+                    android:background="@drawable/check_24px"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="#81C784"
                     android:padding="4dp"
                     android:layout_margin="4dp"/>
 
                 <ImageButton
-                    android:id="@+id/botonEliminar"
+                    android:id="@+id/botonCancelar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/delete_24px"
+                    android:background="@drawable/close_24px"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="#E57373"
                     android:padding="4dp"
