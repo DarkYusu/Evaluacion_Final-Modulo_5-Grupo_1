@@ -20,8 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+// TODO: Renombrar los argumentos para usar nombres más descriptivos
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -31,7 +30,7 @@ class NuevaActividadFragment : Fragment() {
     private var _binding: FragmentNuevaActividadBinding? = null
     private val binding get() = _binding!!
 
-    // TODO: Rename and change types of parameters
+    // Parámetros opcionales del fragment
     private var param1: String? = null
     private var param2: String? = null
 
@@ -50,9 +49,8 @@ class NuevaActividadFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNuevaActividadBinding.inflate(inflater, container, false)
+        // Devolver la raíz del binding para usar view binding
         return binding.root
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nueva_actividad, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +74,7 @@ class NuevaActividadFragment : Fragment() {
             val horaRegex = Regex("^([01]?\\d|2[0-3]):[0-5]\\d$")
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             sdf.isLenient = false
-            val fechaValida = try { sdf.parse(fechaStr) != null } catch (e: Exception) { false }
+            val fechaValida = try { sdf.parse(fechaStr) != null } catch (_: Exception) { false }
 
             if (nombreStr.isEmpty() || fechaStr.isEmpty() || horaStr.isEmpty() || descripcionStr.isEmpty()) {
                 Toast.makeText(requireContext(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
@@ -95,7 +93,7 @@ class NuevaActividadFragment : Fragment() {
                 textFecha.text = ""
                 textHora.text = ""
 
-                // Navegar al listado
+                // Ir al fragmento que muestra el listado de actividades
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, FragmentListadoActividades.newInstance())
                     .commit()
@@ -103,15 +101,18 @@ class NuevaActividadFragment : Fragment() {
         }
 
         botonActividades.setOnClickListener {
+            // Mostrar la lista de actividades
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FragmentListadoActividades.newInstance())
                 .commit()
         }
 
+        // Abrir selector de fecha al tocar el TextView
         binding.textViewFecha.setOnClickListener {
             mostrarDatePickerDialog()
         }
 
+        // Abrir selector de hora al tocar el TextView
         binding.textViewHora.setOnClickListener {
             mostrarTimePickerDialog()
         }
@@ -120,14 +121,12 @@ class NuevaActividadFragment : Fragment() {
 
     companion object {
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NuevaActividadFragment.
+         * Método de fábrica para crear una instancia del fragment con parámetros.
+         * @param param1 Parámetro 1 (opcional)
+         * @param param2 Parámetro 2 (opcional)
+         * @return Nueva instancia de NuevaActividadFragment
          */
-        // TODO: Rename and change types and number of parameters
+        @Suppress("unused")
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             NuevaActividadFragment().apply {
@@ -137,27 +136,26 @@ class NuevaActividadFragment : Fragment() {
                 }
             }
 
-        // Added: convenience no-arg constructor to match previous usage pattern
+        // Constructor de conveniencia sin parámetros
         fun newInstance(): NuevaActividadFragment = NuevaActividadFragment()
     }
 
     private fun mostrarDatePickerDialog() {
-        // Crear un listener para cuando el usuario seleccione una fecha
+        // Listener que recibe la fecha seleccionada
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            // Actualizar la instancia del calendario con la fecha seleccionada
+            // Actualizar el calendario con la fecha elegida
             calendario.set(Calendar.YEAR, year)
             calendario.set(Calendar.MONTH, month)
             calendario.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            // Formatear y mostrar la fecha en el TextView
+            // Mostrar la fecha en el TextView
             actualizarFechaEnTextView()
         }
 
-        // Crear y mostrar el DatePickerDialog
+        // Mostrar el diálogo de selección de fecha
         DatePickerDialog(
             requireContext(),
             dateSetListener,
-            // Usar la fecha actual (o la ya seleccionada) como fecha inicial del diálogo
             calendario.get(Calendar.YEAR),
             calendario.get(Calendar.MONTH),
             calendario.get(Calendar.DAY_OF_MONTH)
@@ -165,38 +163,36 @@ class NuevaActividadFragment : Fragment() {
     }
 
     private fun actualizarFechaEnTextView() {
-        // Formatear la fecha para que se vea legible (ej: "30/09/2025")
+        // Formatear la fecha como dd/MM/yyyy y mostrarla
         val formato = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(formato, Locale.getDefault())
         binding.textViewFecha.text = sdf.format(calendario.time)
     }
 
     private fun mostrarTimePickerDialog() {
-        // Crear un listener para cuando el usuario seleccione una hora
+        // Listener que recibe la hora seleccionada
         val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            // Actualizar la instancia del calendario con la hora seleccionada
+            // Actualizar el calendario con la hora elegida
             calendario.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendario.set(Calendar.MINUTE, minute)
 
-            // Formatear y mostrar la hora en el TextView
+            // Mostrar la hora en el TextView
             actualizarHoraEnTextView()
         }
 
-        // Crear y mostrar el TimePickerDialog
+        // Mostrar el diálogo de selección de hora (formato 24h)
         TimePickerDialog(
             requireContext(),
             timeSetListener,
-            // Usar la hora y minuto actuales como valores iniciales
             calendario.get(Calendar.HOUR_OF_DAY),
             calendario.get(Calendar.MINUTE),
-            // true para formato de 24 horas, false para formato AM/PM
             true
         ).show()
     }
 
     private fun actualizarHoraEnTextView() {
-        // Formatear la hora para que se vea legible (ej: "14:30")
-        val formato = "HH:mm" // Formato de 24 horas
+        // Formatear la hora como HH:mm y mostrarla
+        val formato = "HH:mm"
         val sdf = SimpleDateFormat(formato, Locale.getDefault())
         binding.textViewHora.text = sdf.format(calendario.time)
     }
