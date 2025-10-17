@@ -2,10 +2,12 @@ package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -123,14 +125,26 @@ class NuevaActividadFragment : Fragment() {
 
         // Abrir selector de fecha al tocar el TextView
         binding.textViewFecha.setOnClickListener {
+            // Ocultar teclado antes de mostrar el selector de fecha
+            ocultarTeclado()
             mostrarDatePickerDialog()
         }
 
         // Abrir selector de hora al tocar el TextView
         binding.textViewHora.setOnClickListener {
+            // Ocultar teclado antes de mostrar el selector de hora
+            ocultarTeclado()
             mostrarTimePickerDialog()
         }
         //endregion
+    }
+
+    // Helper para ocultar el teclado suave (soft keyboard)
+    private fun ocultarTeclado() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        // Intentar usar la vista actualmente enfocada; si no existe, usar la raíz del binding
+        val currentView = requireActivity().currentFocus ?: binding.root
+        imm?.hideSoftInputFromWindow(currentView.windowToken, 0)
     }
 
     override fun onDestroyView() {

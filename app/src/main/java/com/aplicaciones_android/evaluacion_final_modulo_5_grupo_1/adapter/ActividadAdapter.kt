@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,16 @@ class ActividadAdapter(private val onDeleteClickListener: (Actividad) -> Unit) :
         val actividad = getItem(position)
         holder.bind(actividad)
         holder.itemView.findViewById<ImageButton>(R.id.botonEliminar).setOnClickListener {
-            onDeleteClickListener(actividad)
+            // Mostrar diálogo de confirmación antes de eliminar
+            val context = holder.itemView.context
+            AlertDialog.Builder(context)
+                .setTitle("Eliminar actividad")
+                .setMessage("¿Deseas eliminar esta actividad?")
+                .setPositiveButton("Sí") { _, _ ->
+                    onDeleteClickListener(actividad)
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
     }
 

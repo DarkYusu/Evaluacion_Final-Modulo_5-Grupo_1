@@ -8,9 +8,16 @@
 
     <TextView
         android:id="@+id/tvAbout"
-        android:textSize="20sp"
-        android:text="Información de la app"
+        android:textSize="18sp"
+        android:text="@string/about_message"
+        android:layout_marginBottom="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
 
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/volver" />
+
+</LinearLayout>

@@ -87,26 +87,26 @@
         android:id="@+id/botonAgregarActividad"
         android:layout_width="146dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#81C784"
         android:text="@string/agregar_actividad"
         android:textColor="@color/black"
-        android:backgroundTint="#81C784"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botonActividades"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85"/>
+        app:layout_constraintVertical_bias="0.7" />
 
     <Button
         android:id="@+id/botonActividades"
         android:layout_width="146dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#4DD0E1"
         android:text="@string/actividades"
         android:textColor="@color/black"
-        android:backgroundTint="#4DD0E1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonAgregarActividad"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85"/>
+        app:layout_constraintVertical_bias="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

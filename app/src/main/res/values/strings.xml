@@ -9,4 +9,8 @@
     <string name="descripci_n">Descripción</string>
     <string name="t_tulo">Título</string>
     <string name="nueva_actividad">Nueva Actividad</string>
+
+    <!-- Textos para la pantalla About -->
+    <string name="about_message">Aplicación desarrollada por el Grupo 1</string>
+    <string name="volver">Volver</string>
 </resources>
