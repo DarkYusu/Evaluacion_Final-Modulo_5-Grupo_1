@@ -162,6 +162,13 @@ class NuevaActividadFragment : Fragment() {
         ).show()
     }
 
+    private fun actualizarFechaEnTextView() {
+        // Formatear la fecha para que se vea legible (ej: "30/09/2025")
+        val formato = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(formato, Locale.getDefault())
+        binding.textViewFecha.text = sdf.format(calendario.time)
+    }
+
     private fun mostrarTimePickerDialog() {
         // Crear un listener para cuando el usuario seleccione una hora
         val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
@@ -183,6 +190,13 @@ class NuevaActividadFragment : Fragment() {
             // true para formato de 24 horas, false para formato AM/PM
             true
         ).show()
+    }
+
+    private fun actualizarHoraEnTextView() {
+        // Formatear la hora para que se vea legible (ej: "14:30")
+        val formato = "HH:mm" // Formato de 24 horas
+        val sdf = SimpleDateFormat(formato, Locale.getDefault())
+        binding.textViewHora.text = sdf.format(calendario.time)
     }
 
 }
