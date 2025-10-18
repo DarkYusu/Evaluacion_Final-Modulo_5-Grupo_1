@@ -1,4 +1,4 @@
-# Aplicación Simple - Grupo 1 (nombres pendientes)
+# Aplicación Simple - Grupo 1
 
 Descripción
 - Aplicación Android sencilla para registrar actividades con título, descripción, fecha y hora.
@@ -52,16 +52,8 @@ Validaciones y reglas
 - Fecha debe respetar el formato `dd/MM/yyyy` y corresponder a una fecha real.
 - Hora debe respetar el formato `HH:mm` (24 horas).
 
-Contribuir
-- Proyecto desarrollado por Grupo 1 (nombres pendientes).
-- Para contribuir: abre issues o pull requests en el repositorio.
-
-Licencia
-- A definir por el equipo (pendiente).
-
-Contacto
-- Grupo 1 — (nombres pendientes)
-
-Notas
-- Este README es una plantilla básica; el equipo puede ampliarlo con instrucciones de pruebas, screenshots y detalles de la arquitectura.
-
+Integrantes:
+- Alejandra Flaño
+- Sebastián Ramírez
+- Barbara Cerda
+- Antonio Badilla
