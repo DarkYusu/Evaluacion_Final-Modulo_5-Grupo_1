@@ -51,6 +51,14 @@ class ActividadViewModel : ViewModel() {
                 // Guardar en CSV (suspend)
                 try {
                     escribirActividadEnCSV(context, actividad)
+                    // Después de escribir en disco, recargar el listado desde el CSV persistido
+                    try {
+                        val listaPersistida = leerActividadesDesdeCSVSinDelay(context)
+                        _actividades.postValue(listaPersistida)
+                    } catch (e: Exception) {
+                        Log.e("ActividadVM", "Error al recargar CSV después de escribir", e)
+                        // No fallamos la operación de agregar; solo informamos para depuración
+                    }
                 } catch (e: Exception) {
                     Log.e("ActividadVM", "Error al escribir actividad en CSV", e)
                     _error.postValue("Error al escribir CSV: ${e.message}")
@@ -236,6 +244,44 @@ class ActividadViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             Log.e("ActividadVM", "Error leyendo archivo interno", e)
+            throw IOException("No se pudo leer el archivo interno: ${e.message}", e)
+        }
+        lista
+    }
+
+    // Lectura inmediata del CSV (sin el delay intencional). Usada para recargar el listado tras escribir.
+    private suspend fun leerActividadesDesdeCSVSinDelay(context: Context): List<Actividad> = withContext(Dispatchers.IO) {
+        val lista = mutableListOf<Actividad>()
+        try {
+            // Intentar abrir el archivo interno; si no existe, se lanza FileNotFoundException
+            context.openFileInput("actividades.csv").use { fis ->
+                InputStreamReader(fis, Charsets.UTF_8).use { isr ->
+                    BufferedReader(isr).use { reader ->
+                        var line: String? = reader.readLine()
+                        while (line != null) {
+                            val data = line.split(",")
+                            if (data.size >= 4) {
+                                lista.add(Actividad(data[0], data[1], data[2], data[3]))
+                            }
+                            line = reader.readLine()
+                        }
+                    }
+                }
+            }
+        } catch (_: java.io.FileNotFoundException) {
+            // Archivo no existe: intentar crear uno vacío para futuras operaciones
+            Log.i("ActividadVM", "Archivo actividades.csv no encontrado al recargar, creando uno vacío")
+            try {
+                context.openFileOutput("actividades.csv", Context.MODE_PRIVATE).use { fos ->
+                    // Archivo creado vacío
+                }
+                _debugInfo.postValue("Archivo creado: ${File(context.filesDir, "actividades.csv").absolutePath}")
+            } catch (ce: Exception) {
+                Log.e("ActividadVM", "No se pudo crear archivo vacio al recargar", ce)
+                _error.postValue("No se pudo crear archivo CSV: ${ce.message}")
+            }
+        } catch (e: Exception) {
+            Log.e("ActividadVM", "Error leyendo archivo interno al recargar", e)
             throw IOException("No se pudo leer el archivo interno: ${e.message}", e)
         }
         lista
