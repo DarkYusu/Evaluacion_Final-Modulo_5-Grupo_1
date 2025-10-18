@@ -10,22 +10,6 @@ Características
 - Selección de fecha y hora mediante diálogos nativos (DatePicker y TimePicker).
 - Almacenamiento y listado mediante un ViewModel compartido.
 
-Tecnologías
-- Kotlin
-- Android SDK
-- Gradle
-- Android Studio
-
-Requisitos
-- Android Studio (recomendado)
-- JDK 11 o superior
-- Dispositivo Android o emulador con nivel de API compatible
-
-Instalación y ejecución
-1. Abre Android Studio y selecciona "Open an existing Android Studio project".
-2. Navega a la carpeta del proyecto: `Evaluacion_FinalModulo_5Grupo_1` y ábrela.
-3. Espera a que Gradle sincronice el proyecto.
-4. Ejecuta la app desde Android Studio con el botón Run o usando un emulador/dispositivo.
 
 Desde la terminal (Windows) también puedes compilar/instalar manualmente:
 
