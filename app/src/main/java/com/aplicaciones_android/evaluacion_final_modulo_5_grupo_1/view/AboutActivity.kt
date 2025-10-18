@@ -13,7 +13,7 @@ class AboutActivity : AppCompatActivity() {
         val info = intent.getStringExtra("info")
         // Mensaje por defecto del grupo si no se pasa info
         findViewById<TextView>(R.id.tvAbout).text = info ?: "Desarrollado por el Grupo 1 - Módulo 5 \nAplicaciones Android\n\n2025\n" +
-                "\nIntegrantes:\n- Alejandra Flaño\n- Sebastián Ramírez\n- Barbara Cerda\n- Antonio Badilla "
+                "\nIntegrantes:\n- Alejandra Flaño\n- Sebastián Ramírez\n- Barbara Cerda\n- Antonio Badilla"
 
         // Botón para volver (cerrar la Activity)
         findViewById<Button>(R.id.btnVolver).setOnClickListener {
