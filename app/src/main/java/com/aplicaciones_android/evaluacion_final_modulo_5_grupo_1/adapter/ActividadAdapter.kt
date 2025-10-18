@@ -1,5 +1,6 @@
 package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.adapter
 
+//region Importaciones
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +12,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.R
 import com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.model.Actividad
+//endregion
 
+//region Clase ActividadAdapter
 class ActividadAdapter(
     private val onEditClickListener: (Actividad) -> Unit,
     private val onDeleteClickListener: (Actividad) -> Unit,
     private val onDateEditListener: (TextView) -> Unit // Nuevo parámetro para manejar la edición de la fecha
 ) : ListAdapter<Actividad, ActividadAdapter.ActividadViewHolder>(DiffCallback()) {
+
+    //region Crear ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActividadViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_actividad, parent, false)
         return ActividadViewHolder(view)
     }
+    //endregion
 
+    //region Vincular ViewHolder
     override fun onBindViewHolder(holder: ActividadViewHolder, position: Int) {
         val actividad = getItem(position)
         holder.bind(actividad)
@@ -48,7 +55,9 @@ class ActividadAdapter(
                 .show()
         }
     }
+    //endregion
 
+    //region Clase ViewHolder
     class ActividadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(actividad: Actividad) {
             itemView.findViewById<TextView>(R.id.textViewTitulo).text = actividad.nombre
@@ -57,11 +66,16 @@ class ActividadAdapter(
             itemView.findViewById<TextView>(R.id.textViewDescripcion).text = actividad.descripcion
         }
     }
+    //endregion
 
+    //region Comparador Diff
     class DiffCallback : DiffUtil.ItemCallback<Actividad>() {
         override fun areItemsTheSame(oldItem: Actividad, newItem: Actividad): Boolean =
             oldItem === newItem
+
         override fun areContentsTheSame(oldItem: Actividad, newItem: Actividad): Boolean =
             oldItem == newItem
     }
+    //endregion
 }
+//endregion

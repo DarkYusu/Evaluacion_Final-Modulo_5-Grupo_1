@@ -84,10 +84,39 @@ class FragmentListadoActividades : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        // Cargar actividades desde CSV (si aplica) y observar el LiveData
-        actividadViewModel.cargarActividadesDesdeCSV(requireContext())
+        // Cargar actividades desde CSV solo si aún no hay actividades cargadas
+        if (actividadViewModel.actividades.value.isNullOrEmpty()) {
+            actividadViewModel.cargarActividadesDesdeCSV(requireContext())
+            // Volcar debug del CSV para inspección (ruta y primeras líneas) en logcat
+            actividadViewModel.debugDumpCSV(requireContext())
+        }
+
+        // Observar LiveData de actividades para actualizar el adaptador
         actividadViewModel.actividades.observe(viewLifecycleOwner) { lista ->
             adapter.submitList(lista)
+        }
+
+        // Observar mensajes de depuración (ruta y conteo de líneas) y mostrar en UI
+        actividadViewModel.debugInfo.observe(viewLifecycleOwner) { info ->
+            info?.let {
+                Toast.makeText(requireContext(), "Debug CSV: $it", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // Observar estado de carga y errores (mostrar mensajes simples)
+        actividadViewModel.error.observe(viewLifecycleOwner) { mensaje ->
+            mensaje?.let {
+                Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        actividadViewModel.isLoading.observe(viewLifecycleOwner) { cargando ->
+            // Si se desea, aquí se puede mostrar/ocultar un ProgressBar en el layout
+            // Por ahora mostramos un Toast breve cuando empieza la carga (opcional)
+            if (cargando) {
+                // evitamos spamear con toasts frecuentes; puedes comentar la siguiente línea si molesta
+                Toast.makeText(requireContext(), "Cargando actividades...", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     //endregion

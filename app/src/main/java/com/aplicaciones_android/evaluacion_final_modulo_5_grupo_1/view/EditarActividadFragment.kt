@@ -3,6 +3,7 @@ package com.aplicaciones_android.evaluacion_final_modulo_5_grupo_1.view
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,18 +22,30 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+//region Constantes
 private const val ARG_ACTIVIDAD = "actividad"
+//endregion
 
 class EditarActividadFragment : Fragment() {
 
+    //region Propiedades
     private val actividadViewModel: ActividadViewModel by activityViewModels()
     private var actividadOriginal: Actividad? = null
     private val calendario = Calendar.getInstance()
+    //endregion
 
+    //region Ciclo de vida
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            actividadOriginal = it.getSerializable(ARG_ACTIVIDAD) as? Actividad
+        arguments?.let { bundle ->
+            // Usar la nueva sobrecarga en API 33+ para evitar deprecated, con fallback para versiones anteriores
+            actividadOriginal = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bundle.getSerializable(ARG_ACTIVIDAD, Actividad::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                bundle.getSerializable(ARG_ACTIVIDAD) as? Actividad
+            }
+
             // Inicializar calendario con la fecha/hora de la actividad si existe
             actividadOriginal?.let { act ->
                 try {
@@ -61,40 +74,42 @@ class EditarActividadFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_editar_actividad, container, false)
     }
+    //endregion
 
+    //region Interacciones UI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val editTitulo = view.findViewById<EditText>(R.id.textViewTitulo)
-        val textFecha = view.findViewById<TextView>(R.id.textViewFecha)
-        val textHora = view.findViewById<TextView>(R.id.textViewHora)
-        val editDescripcion = view.findViewById<EditText>(R.id.textViewDescripcion)
+        val campoTitulo = view.findViewById<EditText>(R.id.textViewTitulo)
+        val textoFecha = view.findViewById<TextView>(R.id.textViewFecha)
+        val textoHora = view.findViewById<TextView>(R.id.textViewHora)
+        val campoDescripcion = view.findViewById<EditText>(R.id.textViewDescripcion)
         val botonConfirmar = view.findViewById<ImageButton>(R.id.botonConfirmar)
         val botonCancelar = view.findViewById<ImageButton>(R.id.botonCancelar)
 
         // Rellenar con la actividad original
         actividadOriginal?.let { act ->
-            editTitulo.setText(act.nombre)
-            textFecha.text = act.fecha
-            textHora.text = act.hora
-            editDescripcion.setText(act.descripcion)
+            campoTitulo.setText(act.nombre)
+            textoFecha.text = act.fecha
+            textoHora.text = act.hora
+            campoDescripcion.setText(act.descripcion)
         }
 
         // Fecha y hora: abrir pickers (ocultando teclado antes)
-        textFecha.setOnClickListener {
+        textoFecha.setOnClickListener {
             ocultarTeclado(it)
-            mostrarDatePickerDialog(textFecha)
+            mostrarDatePickerDialog(textoFecha)
         }
-        textHora.setOnClickListener {
+        textoHora.setOnClickListener {
             ocultarTeclado(it)
-            mostrarTimePickerDialog(textHora)
+            mostrarTimePickerDialog(textoHora)
         }
 
         botonConfirmar.setOnClickListener {
-            val nuevoTitulo = editTitulo.text.toString().trim()
-            val nuevaFecha = textFecha.text.toString().trim()
-            val nuevaHora = textHora.text.toString().trim()
-            val nuevaDescripcion = editDescripcion.text.toString().trim()
+            val nuevoTitulo = campoTitulo.text.toString().trim()
+            val nuevaFecha = textoFecha.text.toString().trim()
+            val nuevaHora = textoHora.text.toString().trim()
+            val nuevaDescripcion = campoDescripcion.text.toString().trim()
 
             if (nuevoTitulo.isEmpty() || nuevaFecha.isEmpty() || nuevaHora.isEmpty() || nuevaDescripcion.isEmpty()) {
                 Toast.makeText(
@@ -123,7 +138,9 @@ class EditarActividadFragment : Fragment() {
                 .commit()
         }
     }
+    //endregion
 
+    //region Pickers
     private fun mostrarDatePickerDialog(targetView: TextView) {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendario.set(Calendar.YEAR, year)
@@ -160,7 +177,9 @@ class EditarActividadFragment : Fragment() {
             true
         ).show()
     }
+    //endregion
 
+    //region Utilidades
     // Oculta el teclado suave asociado a la ventana del view indicado
     private fun ocultarTeclado(view: View) {
         try {
@@ -172,7 +191,9 @@ class EditarActividadFragment : Fragment() {
             // Ignorar si no se puede ocultar
         }
     }
+    //endregion
 
+    //region Companion
     companion object {
         @JvmStatic
         fun newInstance(actividad: Actividad) =
@@ -182,4 +203,5 @@ class EditarActividadFragment : Fragment() {
                 }
             }
     }
+    //endregion
 }

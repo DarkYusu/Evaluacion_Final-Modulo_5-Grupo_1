@@ -123,6 +123,19 @@ class NuevaActividadFragment : Fragment() {
                 .commit()
         }
 
+        // Observer para mostrar errores y debug info del ViewModel
+        actividadViewModel.error.observe(viewLifecycleOwner) { mensaje ->
+            mensaje?.let {
+                Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        actividadViewModel.debugInfo.observe(viewLifecycleOwner) { info ->
+            info?.let {
+                Toast.makeText(requireContext(), "Debug CSV: $it", Toast.LENGTH_LONG).show()
+            }
+        }
+
         // Abrir selector de fecha al tocar el TextView
         binding.textViewFecha.setOnClickListener {
             // Ocultar teclado antes de mostrar el selector de fecha
